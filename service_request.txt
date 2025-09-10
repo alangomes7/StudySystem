@@ -1,0 +1,68 @@
+# Service Requests to Test the Student API
+#
+# You can run these commands in your terminal or import them into Postman.
+# Assumes the application is running on http://localhost:8080
+
+# =================================================================
+# 1. Add a new Student
+# Method: POST
+# URL: /students
+# Expected Response: 201 Created with the student object including an ID.
+# =================================================================
+curl --location 'http://localhost:8080/students' \
+--header 'Content-Type: application/json' \
+--data '{
+    "name": "Ada Lovelace",
+    "register": "18151129",
+    "email": "ada.lovelace@example.com"
+}'
+
+# =================================================================
+# 2. Get All Students
+# Method: GET
+# URL: /students
+# Expected Response: 200 OK with a JSON array of all students.
+# =================================================================
+curl --location 'http://localhost:8080/students'
+
+# =================================================================
+# 3. Get a Specific Student by ID
+# Method: GET
+# URL: /students/{id}
+# Note: Replace '1' with an actual student ID from your database.
+# Expected Response: 200 OK with the student object.
+# =================================================================
+curl --location 'http://localhost:8080/students/1'
+
+# =================================================================
+# 4. Test Get Student with an Invalid ID
+# Method: GET
+# URL: /students/{id}
+# Note: Use an ID that does not exist, like 999.
+# Expected Response: 404 Not Found.
+# =================================================================
+curl --location 'http://localhost:8080/students/999'
+
+# =================================================================
+# 5. Modify an Existing Student
+# Method: PUT
+# URL: /students/{id}
+# Note: Replace '1' with the ID of the student you want to update.
+# Expected Response: 200 OK with the updated student object.
+# =================================================================
+curl --location --request PUT 'http://localhost:8080/students/1' \
+--header 'Content-Type: application/json' \
+--data '{
+    "name": "Ada Lovelace King",
+    "register": "18151129-U",
+    "email": "ada.king@example.com"
+}'
+
+# =================================================================
+# 6. Remove a Student
+# Method: DELETE
+# URL: /students/{id}
+# Note: Replace '1' with the ID of the student you want to delete.
+# Expected Response: 204 No Content.
+# =================================================================
+curl --location --request DELETE 'http://localhost:8080/students/1'
