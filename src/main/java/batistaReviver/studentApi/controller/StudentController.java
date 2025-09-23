@@ -1,7 +1,7 @@
-package com.alangomes.students.controller;
+package batistaReviver.studentApi.controller;
 
-import com.alangomes.students.model.Student;
-import com.alangomes.students.service.StudentService;
+import batistaReviver.studentApi.model.Student;
+import batistaReviver.studentApi.service.StudentService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;

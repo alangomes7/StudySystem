@@ -1,6 +1,6 @@
-package com.alangomes.students;
+package batistaReviver.studentApi;
 
-import com.alangomes.students.repository.StudentRepository;
+import batistaReviver.studentApi.repository.StudentRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;

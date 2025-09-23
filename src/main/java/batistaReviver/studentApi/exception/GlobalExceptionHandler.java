@@ -1,4 +1,4 @@
-package com.alangomes.students.exception;
+package batistaReviver.studentApi.exception;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;

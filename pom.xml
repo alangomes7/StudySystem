@@ -8,11 +8,11 @@
 		<version>3.3.3</version>
 		<relativePath/> <!-- lookup parent from repository -->
 	</parent>
-	<groupId>com.alangomes</groupId>
-	<artifactId>studentsApi</artifactId>
+	<groupId>batistaReviver</groupId>
+	<artifactId>studentApi</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
-	<name>studentsApi</name>
-	<description>Spring Boot REST API</description>
+	<name>studentApi</name>
+	<description>Spring Boot Study System REST API</description>
 
 	<properties>
 		<java.version>21</java.version>

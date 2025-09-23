@@ -1,4 +1,4 @@
-package com.alangomes.students.exception;
+package batistaReviver.studentApi.exception;
 
 /**
  * Custom exception thrown when an entity is not found in the database.

@@ -1,7 +1,7 @@
-package com.alangomes.students.repository;
+package batistaReviver.studentApi.repository;
 
 
-import com.alangomes.students.model.Student;
+import batistaReviver.studentApi.model.Student;
 import org.springframework.data.jpa.repository.JpaRepository;
 import java.util.Optional;
 

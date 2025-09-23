@@ -1,8 +1,8 @@
-package com.alangomes.students.service;
+package batistaReviver.studentApi.service;
 
-import com.alangomes.students.exception.EntityNotFoundException;
-import com.alangomes.students.model.Student;
-import com.alangomes.students.repository.StudentRepository;
+import batistaReviver.studentApi.exception.EntityNotFoundException;
+import batistaReviver.studentApi.model.Student;
+import batistaReviver.studentApi.repository.StudentRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
