@@ -48,7 +48,7 @@ public class Course {
      * The set of specific class offerings for this course across different years and semesters.
      * This establishes a one-to-many relationship with the StudyClass entity.
      */
-    @OneToMany(mappedBy = "course", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "course", orphanRemoval = true, fetch = FetchType.LAZY)
     private Set<StudyClass> studyClasses = new HashSet<>();
 
     /**

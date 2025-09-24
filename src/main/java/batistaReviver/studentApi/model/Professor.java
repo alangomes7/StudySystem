@@ -62,7 +62,7 @@ public class Professor {
      * The set of classes taught by this professor.
      * Establishes a one-to-many relationship with the StudyClass entity.
      */
-    @OneToMany(mappedBy = "professor", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "professor", orphanRemoval = true, fetch = FetchType.LAZY)
     private Set<StudyClass> studyClasses = new HashSet<>();
 
 

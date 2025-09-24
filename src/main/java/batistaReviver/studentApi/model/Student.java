@@ -63,7 +63,7 @@ public class Student {
      * The set of subscriptions this student has to different classes.
      * This establishes a one-to-many relationship with the Subscription entity.
      */
-    @OneToMany(mappedBy = "student", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "student", orphanRemoval = true, fetch = FetchType.LAZY)
     private Set<Subscription> subscriptions = new HashSet<>();
 
     /**
