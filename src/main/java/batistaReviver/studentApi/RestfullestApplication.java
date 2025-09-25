@@ -1,6 +1,5 @@
 package batistaReviver.studentApi;
 
-import batistaReviver.studentApi.repository.StudentRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
@@ -13,8 +12,6 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 @RequiredArgsConstructor
 @SpringBootApplication
 public class RestfullestApplication implements CommandLineRunner {
-
-  private final StudentRepository studentRepository;
 
   /**
    * The main method which serves as the entry point for the application.
