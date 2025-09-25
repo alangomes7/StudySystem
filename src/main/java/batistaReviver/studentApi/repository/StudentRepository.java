@@ -1,11 +1,11 @@
 package batistaReviver.studentApi.repository;
 
-
 import batistaReviver.studentApi.model.Student;
-import org.springframework.data.jpa.repository.JpaRepository;
 import java.util.Optional;
+import org.springframework.data.jpa.repository.JpaRepository;
 
 public interface StudentRepository extends JpaRepository<Student, Long> {
-    Optional<Student> findByRegister(String register);
-    Optional<Student> findByEmail(String email);
+  Optional<Student> findByRegister(String register);
+
+  Optional<Student> findByEmail(String email);
 }

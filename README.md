@@ -1,6 +1,6 @@
-# studentJPA
+# Study System API
 
-This project is a simple RESTful API for managing students, built with Spring Boot and JPA.
+This project is a simple RESTful API for managing students, professors, classes, and subscriptions, built with Spring Boot and JPA.
 
 ## Prerequisites
 
@@ -15,7 +15,7 @@ This project is a simple RESTful API for managing students, built with Spring Bo
 2.  **Configure the database:**
     Update `src/main/resources/application.properties` with your MySQL credentials.
     ```properties
-    spring.datasource.url=jdbc:mysql://localhost:3306/StudentApi
+    spring.datasource.url=jdbc:mysql://localhost:3306/StudySystem
     spring.datasource.username=your-username
     spring.datasource.password=your-password
     ```
@@ -29,73 +29,117 @@ This project is a simple RESTful API for managing students, built with Spring Bo
 
 ## API Endpoints
 
-The following examples, derived from `service_request.txt`, demonstrate how to use the API.
+### Students
 
-### 1. Add a new Student
-- **Method:** `POST`
-- **URL:** `/students`
-- **Description:** Creates a new student.
-- **Expected Response:** `201 Created` with the student object including an ID.
-- **Example:**
+- **POST /students**: Creates a new student.
   ```bash
   curl --location 'http://localhost:8080/students' \
   --header 'Content-Type: application/json' \
-  --data '{
-      "name": "Ada Lovelace",
-      "register": "18151129",
-      "email": "ada.lovelace@example.com"
+  --data '{ \
+      "name": "Ada Lovelace", \
+      "register": "18151129", \
+      "email": "ada.lovelace@example.com" \
   }'
   ```
 
-### 2. Get All Students
-- **Method:** `GET`
-- **URL:** `/students`
-- **Description:** Retrieves a list of all students.
-- **Expected Response:** `200 OK` with a JSON array of all students.
-- **Example:**
+- **GET /students**: Retrieves a list of all students.
   ```bash
   curl --location 'http://localhost:8080/students'
   ```
 
-### 3. Get a Specific Student by ID
-- **Method:** `GET`
-- **URL:** `/students/{id}`
-- **Description:** Retrieves a single student by their ID.
-- **Expected Response:** `200 OK` with the student object, or `404 Not Found` if the ID does not exist.
-- **Example (Success):**
+- **GET /students/{id}**: Retrieves a single student by their ID.
   ```bash
-  # Replace '1' with an actual student ID
   curl --location 'http://localhost:8080/students/1'
   ```
-- **Example (Not Found):**
-  ```bash
-  curl --location 'http://localhost:8080/students/999'
-  ```
 
-### 4. Modify an Existing Student
-- **Method:** `PUT`
-- **URL:** `/students/{id}`
-- **Description:** Updates an existing student's details.
-- **Expected Response:** `200 OK` with the updated student object.
-- **Example:**
+- **PUT /students/{id}**: Updates an existing student's details.
   ```bash
-  # Replace '1' with the ID of the student to update
   curl --location --request PUT 'http://localhost:8080/students/1' \
   --header 'Content-Type: application/json' \
-  --data '{
-      "name": "Ada Lovelace King",
-      "register": "18151129-U",
-      "email": "ada.king@example.com"
+  --data '{ \
+      "name": "Ada Lovelace King", \
+      "register": "18151129-U", \
+      "email": "ada.king@example.com" \
   }'
   ```
 
-### 5. Remove a Student
-- **Method:** `DELETE`
-- **URL:** `/students/{id}`
-- **Description:** Deletes a student by their ID.
-- **Expected Response:** `204 No Content`.
-- **Example:**
+- **DELETE /students/{id}**: Deletes a student by their ID.
   ```bash
-  # Replace '1' with the ID of the student to delete
   curl --location --request DELETE 'http://localhost:8080/students/1'
+  ```
+
+### Professors
+
+- **POST /professors**: Creates a new professor.
+  ```bash
+  curl --location 'http://localhost:8080/professors' \
+  --header 'Content-Type: application/json' \
+  --data '{ \
+      "name": "Alan Turing" \
+  }'
+  ```
+
+- **GET /professors**: Retrieves all professors.
+  ```bash
+  curl --location 'http://localhost:8080/professors'
+  ```
+
+- **GET /professors/{id}**: Retrieves a specific professor by their ID.
+  ```bash
+  curl --location 'http://localhost:8080/professors/1'
+  ```
+
+- **PUT /professors/{id}**: Updates an existing professor.
+  ```bash
+  curl --location --request PUT 'http://localhost:8080/professors/1' \
+  --header 'Content-Type: application/json' \
+  --data '{ \
+      "name": "Dr. Alan Turing" \
+  }'
+  ```
+
+- **DELETE /professors/{id}**: Deletes a professor by their ID.
+  ```bash
+  curl --location --request DELETE 'http://localhost:8080/professors/1'
+  ```
+
+- **GET /professors/{id}/history**: Retrieves the teaching history for a specific professor.
+  ```bash
+  curl --location 'http://localhost:8080/professors/1/history'
+  ```
+
+### Study Classes
+
+- **POST /study-classes**: Creates a new class.
+  ```bash
+  curl --location 'http://localhost:8080/study-classes' \
+  --header 'Content-Type: application/json' \
+  --data '{ \
+      "year": 2025, \
+      "semester": 2, \
+      "courseId": 1, \
+      "professorId": 1 \
+  }'
+  ```
+
+- **DELETE /study-classes/{id}**: Deletes a class by its ID.
+  ```bash
+  curl --location --request DELETE 'http://localhost:8080/study-classes/1'
+  ```
+
+### Subscriptions
+
+- **POST /subscriptions**: Creates a new subscription for a student to a class.
+  ```bash
+  curl --location 'http://localhost:8080/subscriptions' \
+  --header 'Content-Type: application/json' \
+  --data '{ \
+      "studentId": 1, \
+      "studyClassId": 1 \
+  }'
+  ```
+
+- **DELETE /subscriptions/{id}**: Deletes a subscription by its ID.
+  ```bash
+  curl --location --request DELETE 'http://localhost:8080/subscriptions/1'
   ```
