@@ -1,8 +1,6 @@
 package batistaReviver.studentApi.model;
 
 import jakarta.persistence.*;
-import java.util.HashSet;
-import java.util.Set;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -54,20 +52,6 @@ public class Professor {
    */
   @Column(unique = true)
   private String register;
-
-  /**
-   * A set of {@link StudyClass} entities taught by this professor.
-   *
-   * <p>This establishes a one-to-many relationship, where one professor can teach many classes. The
-   * relationship is managed by the {@code professor} field in the {@code StudyClass} entity.
-   *
-   * @code orphanRemoval = true}: If a StudyClass is removed from this set, it will be deleted from
-   *     the database.
-   * @code fetch = FetchType.LAZY}: The associated classes are loaded from the database only when
-   *     they are explicitly accessed.
-   */
-  @OneToMany(mappedBy = "professor", orphanRemoval = true, fetch = FetchType.LAZY)
-  private Set<StudyClass> studyClasses = new HashSet<>();
 
   /**
    * Constructs a new Professor with specified details, excluding the database-generated ID. This

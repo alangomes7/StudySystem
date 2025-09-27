@@ -1,8 +1,6 @@
 package batistaReviver.studentApi.model;
 
 import jakarta.persistence.*;
-import java.util.HashSet;
-import java.util.Set;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -52,14 +50,6 @@ public class StudyClass {
   @ManyToOne(fetch = FetchType.LAZY)
   @JoinColumn(name = "professor_id", nullable = true)
   private Professor professor;
-
-  /**
-   * The set of student subscriptions for this specific class. Establishes a one-to-many
-   * relationship with the Subscription entity. When a StudyClass is deleted, all associated
-   * Subscription entities will also be removed.
-   */
-  @OneToMany(mappedBy = "studyClass", orphanRemoval = true, fetch = FetchType.LAZY)
-  private Set<Subscription> subscriptions = new HashSet<>();
 
   /**
    * Constructs a new StudyClass instance. This constructor is typically used when creating a new

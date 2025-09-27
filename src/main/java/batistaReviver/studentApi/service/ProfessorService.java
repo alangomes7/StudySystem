@@ -2,10 +2,8 @@ package batistaReviver.studentApi.service;
 
 import batistaReviver.studentApi.exception.EntityNotFoundException;
 import batistaReviver.studentApi.model.Professor;
-import batistaReviver.studentApi.model.StudyClass;
 import batistaReviver.studentApi.repository.ProfessorRepository;
 import java.util.List;
-import java.util.Set;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -82,18 +80,5 @@ public class ProfessorService {
       throw new EntityNotFoundException("Professor with id = " + id + " not found.");
     }
     professorRepository.deleteById(id);
-  }
-
-  /**
-   * Retrieves the teaching history (all classes) for a specific professor.
-   *
-   * @param id The ID of the professor.
-   * @return A set of StudyClass objects taught by the professor.
-   * @throws EntityNotFoundException if the professor is not found.
-   */
-  @Transactional(readOnly = true)
-  public Set<StudyClass> getProfessorHistory(Long id) {
-    Professor professor = getProfessorById(id);
-    return professor.getStudyClasses();
   }
 }

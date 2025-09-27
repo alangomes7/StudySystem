@@ -2,6 +2,7 @@ package batistaReviver.studentApi.model;
 
 import jakarta.persistence.*;
 import java.time.LocalDateTime;
+import java.util.Objects;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -60,5 +61,23 @@ public class Subscription {
   public Subscription(Student student, StudyClass studyClass) {
     this.student = student;
     this.studyClass = studyClass;
+  }
+
+  /**
+   * Returns if the Subscription instance is related to given Student
+   *
+   * @param student The student enrolling.
+   */
+  public boolean studentSubscription(Student student) {
+    return Objects.equals(student.getId(), this.getStudent().getId());
+  }
+
+  /**
+   * Returns if the Subscription instance is related to given StudyClass
+   *
+   * @param studyClass The associated studyClass.
+   */
+  public boolean studyClassSubscription(StudyClass studyClass) {
+    return Objects.equals(studyClass.getId(), this.getStudyClass().getId());
   }
 }

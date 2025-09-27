@@ -2,9 +2,7 @@ package batistaReviver.studentApi.service;
 
 import batistaReviver.studentApi.exception.EntityNotFoundException;
 import batistaReviver.studentApi.model.Student;
-import batistaReviver.studentApi.model.Subscription;
 import batistaReviver.studentApi.repository.StudentRepository;
-import java.util.ArrayList;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -80,16 +78,5 @@ public class StudentService {
   public void removeStudent(Long id) {
     getStudentById(id); // Lança exceção se não for encontrado
     studentRepository.deleteById(id);
-  }
-
-  /**
-   * Retrieves the subscription history for a specific student.
-   *
-   * @param id The ID of the student.
-   * @return A list of the student's subscriptions.
-   */
-  public List<Subscription> getStudentHistory(Long id) {
-    Student student = getStudentById(id);
-    return new ArrayList<>(student.getSubscriptions());
   }
 }

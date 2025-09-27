@@ -1,6 +1,7 @@
 package batistaReviver.studentApi.repository;
 
 import batistaReviver.studentApi.model.Subscription;
+import java.util.List;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
@@ -25,4 +26,23 @@ public interface SubscriptionRepository extends JpaRepository<Subscription, Long
    * @return {@code true} if a subscription already exists, {@code false} otherwise.
    */
   boolean existsByStudentIdAndStudyClassId(Long studentId, Long studyClassId);
+
+  /**
+   * Finds all subscriptions for a given student ID. Spring Data JPA automatically implements this
+   * method.
+   *
+   * @param studentId The ID of the student.
+   * @return A list of subscriptions for that student.
+   */
+  List<Subscription> findByStudentId(Long studentId);
+
+  /**
+   * Finds all subscriptions for a given studyClass ID. Spring Data JPA automatically implements
+   * this method.
+   *
+   * @param studyClassId The ID of the studyClass.
+   * @return A list of subscriptions for that studyClass.
+   */
+  // FIX: Renamed from findBystudyClassIdId to findByStudyClassId
+  List<Subscription> findByStudyClassId(Long studyClassId);
 }

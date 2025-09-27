@@ -1,8 +1,6 @@
 package batistaReviver.studentApi.model;
 
 import jakarta.persistence.*;
-import java.util.HashSet;
-import java.util.Set;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -43,14 +41,6 @@ public class Student {
   /** The unique registration number for the student. */
   @Column(nullable = false, unique = true)
   private String register;
-
-  /**
-   * The set of subscriptions this student has to different classes. This establishes a one-to-many
-   * relationship with the Subscription entity. When a Student is deleted, all associated
-   * Subscription entities will also be removed.
-   */
-  @OneToMany(mappedBy = "student", orphanRemoval = true, fetch = FetchType.LAZY)
-  private Set<Subscription> subscriptions = new HashSet<>();
 
   /**
    * Constructs a new Student instance without an ID. This is useful for creating new student

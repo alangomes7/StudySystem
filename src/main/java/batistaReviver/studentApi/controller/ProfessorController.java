@@ -1,10 +1,8 @@
 package batistaReviver.studentApi.controller;
 
 import batistaReviver.studentApi.model.Professor;
-import batistaReviver.studentApi.model.StudyClass;
 import batistaReviver.studentApi.service.ProfessorService;
 import java.util.List;
-import java.util.Set;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -73,17 +71,5 @@ public class ProfessorController {
   public ResponseEntity<Void> deleteProfessor(@PathVariable Long id) {
     professorService.deleteProfessor(id);
     return ResponseEntity.noContent().build();
-  }
-
-  /**
-   * GET /professors/{id}/history : Retrieves the teaching history for a specific professor.
-   *
-   * @param id The ID of the professor.
-   * @return A response entity with a set of classes taught by the professor and HTTP status 200
-   *     (OK).
-   */
-  @GetMapping("/{id}/history")
-  public ResponseEntity<Set<StudyClass>> getProfessorHistory(@PathVariable Long id) {
-    return ResponseEntity.ok(professorService.getProfessorHistory(id));
   }
 }

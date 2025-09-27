@@ -1,8 +1,6 @@
 package batistaReviver.studentApi.model;
 
 import jakarta.persistence.*;
-import java.util.HashSet;
-import java.util.Set;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -37,14 +35,6 @@ public class Course {
   /** A brief description of the course content. */
   @Column(columnDefinition = "TEXT")
   private String description;
-
-  /**
-   * The set of specific class offerings for this course across different years and semesters. This
-   * establishes a one-to-many relationship with the StudyClass entity. When a Course is deleted,
-   * all associated StudyClass entities will also be removed.
-   */
-  @OneToMany(mappedBy = "course", orphanRemoval = true, fetch = FetchType.LAZY)
-  private Set<StudyClass> studyClasses = new HashSet<>();
 
   /**
    * Constructs a new Course instance without an ID. This constructor is typically used when

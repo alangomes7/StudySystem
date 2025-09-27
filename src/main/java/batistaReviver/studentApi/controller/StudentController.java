@@ -1,7 +1,6 @@
 package batistaReviver.studentApi.controller;
 
 import batistaReviver.studentApi.model.Student;
-import batistaReviver.studentApi.model.Subscription;
 import batistaReviver.studentApi.service.StudentService;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
@@ -75,16 +74,5 @@ public class StudentController {
   public ResponseEntity<Void> removeStudent(@PathVariable Long id) {
     studentService.removeStudent(id);
     return ResponseEntity.noContent().build();
-  }
-
-  /**
-   * Retrieves the subscription history for a specific student.
-   *
-   * @param id The ID of the student.
-   * @return A ResponseEntity containing the list of subscriptions.
-   */
-  @GetMapping("/{id}/history")
-  public ResponseEntity<List<Subscription>> getStudentHistory(@PathVariable Long id) {
-    return ResponseEntity.ok(studentService.getStudentHistory(id));
   }
 }
