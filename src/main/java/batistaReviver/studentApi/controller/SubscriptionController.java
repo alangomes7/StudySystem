@@ -1,6 +1,6 @@
 package batistaReviver.studentApi.controller;
 
-import batistaReviver.studentApi.model.Subscription;
+import batistaReviver.studentApi.dto.SubscriptionDto;
 import batistaReviver.studentApi.service.SubscriptionService;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
@@ -8,6 +8,13 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+/**
+ * REST controller for managing {@link Subscription} entities.
+ *
+ * <p>Provides API endpoints for creating, retrieving, and deleting subscriptions, which represent
+ * the enrollment of a {@link batistaReviver.studentApi.model.Student} in a {@link
+ * batistaReviver.studentApi.model.StudyClass}.
+ */
 @RestController
 @RequestMapping("/subscriptions")
 @RequiredArgsConstructor
@@ -19,16 +26,16 @@ public class SubscriptionController {
   public record CreateSubscriptionRequest(Long studentId, Long studyClassId) {}
 
   /**
-   * GET /subscriptions : Retrieves all subscriptions.
+   * Handles HTTP GET requests to retrieve all subscriptions, optionally filtered by student or
+   * study class.
    *
-   * <p>Can be filtered by providing a 'studentId' or 'studyClassId' query parameter.
-   *
-   * @param studentId (Optional) The ID of the student to filter by.
-   * @param studyClassId (Optional) The ID of the class to filter by.
-   * @return A response entity with a list of subscriptions and HTTP status 200 (OK).
+   * @param studentId Optional ID of the student to filter subscriptions by.
+   * @param studyClassId Optional ID of the study class to filter subscriptions by.
+   * @return A {@link ResponseEntity} containing a list of {@link SubscriptionDto} objects and an OK
+   *     status.
    */
   @GetMapping
-  public ResponseEntity<List<Subscription>> findSubscriptions(
+  public ResponseEntity<List<SubscriptionDto>> findSubscriptions(
       @RequestParam(required = false) Long studentId,
       @RequestParam(required = false) Long studyClassId) {
 
@@ -45,24 +52,26 @@ public class SubscriptionController {
   }
 
   /**
-   * POST /subscriptions : Creates a new subscription for a student to a class.
+   * Handles HTTP POST requests to create a new subscription.
    *
-   * @param request The request body containing the student and class IDs.
-   * @return A response entity with the created subscription and HTTP status 201 (Created).
+   * @param request A {@link CreateSubscriptionRequest} containing the IDs of the student and study
+   *     class.
+   * @return A {@link ResponseEntity} containing the newly created {@link SubscriptionDto} and a
+   *     CREATED status.
    */
   @PostMapping
-  public ResponseEntity<Subscription> createSubscription(
+  public ResponseEntity<SubscriptionDto> createSubscription(
       @RequestBody CreateSubscriptionRequest request) {
-    Subscription createdSubscription =
+    SubscriptionDto createdSubscription =
         subscriptionService.createSubscription(request.studentId(), request.studyClassId());
     return new ResponseEntity<>(createdSubscription, HttpStatus.CREATED);
   }
 
   /**
-   * DELETE /subscriptions/{id} : Deletes a subscription by its ID.
+   * Handles HTTP DELETE requests to delete a subscription by its ID.
    *
    * @param id The ID of the subscription to delete.
-   * @return A response entity with no content and HTTP status 204 (No Content).
+   * @return A {@link ResponseEntity} with NO_CONTENT status indicating successful deletion.
    */
   @DeleteMapping("/{id}")
   public ResponseEntity<Void> deleteSubscription(@PathVariable Long id) {

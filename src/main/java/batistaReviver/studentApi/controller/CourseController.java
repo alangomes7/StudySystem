@@ -3,7 +3,7 @@ package batistaReviver.studentApi.controller;
 import batistaReviver.studentApi.model.Course;
 import batistaReviver.studentApi.service.CourseService;
 import java.util.List;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -11,29 +11,21 @@ import org.springframework.web.bind.annotation.*;
 /**
  * REST controller for managing {@link Course} entities.
  *
- * <p>Provides API endpoints for performing CRUD operations on courses. All endpoints are prefixed
- * with "/api/v1/courses".
+ * <p>Provides API endpoints for performing CRUD operations on courses. All endpoints are mapped
+ * under the "/courses" base path.
  */
 @RestController
 @RequestMapping("/courses")
+@RequiredArgsConstructor
 public class CourseController {
 
   private final CourseService courseService;
 
   /**
-   * Constructs a new CourseController with the specified service.
-   *
-   * @param courseService The service used to manage course business logic.
-   */
-  @Autowired
-  public CourseController(CourseService courseService) {
-    this.courseService = courseService;
-  }
-
-  /**
    * Handles HTTP GET requests to retrieve all courses.
    *
-   * @return A {@link ResponseEntity} containing a list of all courses and an OK status.
+   * @return A {@link ResponseEntity} containing a list of all {@link Course} entities and an OK
+   *     status.
    */
   @GetMapping
   public ResponseEntity<List<Course>> getAllCourses() {
@@ -45,7 +37,8 @@ public class CourseController {
    * Handles HTTP GET requests to retrieve a single course by its ID.
    *
    * @param id The ID of the course to retrieve.
-   * @return A {@link ResponseEntity} containing the found course and an OK status.
+   * @return A {@link ResponseEntity} containing the found {@link Course} and an OK status. If not
+   *     found, an exception will be thrown and handled globally.
    */
   @GetMapping("/{id}")
   public ResponseEntity<Course> getCourseById(@PathVariable Long id) {
@@ -57,7 +50,8 @@ public class CourseController {
    * Handles HTTP POST requests to create a new course.
    *
    * @param course The course object from the request body.
-   * @return A {@link ResponseEntity} containing the newly created course and a CREATED status.
+   * @return A {@link ResponseEntity} containing the newly created {@link Course} and a CREATED
+   *     status.
    */
   @PostMapping
   public ResponseEntity<Course> createCourse(@RequestBody Course course) {
@@ -70,7 +64,8 @@ public class CourseController {
    *
    * @param id The ID of the course to update.
    * @param courseDetails The course object with updated details from the request body.
-   * @return A {@link ResponseEntity} containing the updated course and an OK status.
+   * @return A {@link ResponseEntity} containing the updated {@link Course} and an OK status. If not
+   *     found, an exception will be thrown and handled globally.
    */
   @PutMapping("/{id}")
   public ResponseEntity<Course> updateCourse(

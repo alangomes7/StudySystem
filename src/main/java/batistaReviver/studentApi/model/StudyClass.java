@@ -25,6 +25,10 @@ public class StudyClass {
   @GeneratedValue(strategy = GenerationType.IDENTITY)
   private Long id;
 
+  /** A unique, auto-generated code for the class (e.g., "CS101-20241"). */
+  @Column(name = "class_code", unique = true, nullable = false)
+  private String classCode;
+
   /** The academic year in which the class is offered. */
   @Column(nullable = false)
   private int year;
@@ -65,5 +69,17 @@ public class StudyClass {
     this.semester = semester;
     this.course = course;
     this.professor = professor;
+  }
+
+  /**
+   * Constructs a new StudyClass instance without a professor. This is useful for creating a class
+   * before a professor has been assigned.
+   *
+   * @param year The academic year.
+   * @param semester The semester.
+   * @param course The course being offered.
+   */
+  public StudyClass(int year, int semester, Course course) {
+    this(year, semester, course, null);
   }
 }

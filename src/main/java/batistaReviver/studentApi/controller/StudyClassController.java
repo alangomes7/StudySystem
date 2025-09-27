@@ -1,6 +1,6 @@
 package batistaReviver.studentApi.controller;
 
-import batistaReviver.studentApi.model.StudyClass;
+import batistaReviver.studentApi.dto.StudyClassDto;
 import batistaReviver.studentApi.service.StudyClassService;
 import java.util.List; // Import List
 import lombok.RequiredArgsConstructor;
@@ -8,6 +8,12 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+/**
+ * REST controller for managing {@link StudyClass} entities.
+ *
+ * <p>Provides API endpoints for creating, retrieving, deleting, and managing professor assignments
+ * for study classes. All endpoints are mapped under the "/study-classes" base path.
+ */
 @RestController
 @RequestMapping("/study-classes")
 @RequiredArgsConstructor
@@ -18,16 +24,21 @@ public class StudyClassController {
   /** DTO for creating a new StudyClass. */
   public record CreateStudyClassRequest(int year, int semester, Long courseId, Long professorId) {}
 
+  /** DTO for assigning a professor to a StudyClass. */
+  public record AssignProfessorRequest(Long professorId) {}
+
   /**
-   * GET /study-classes : Retrieves all classes. Can be filtered by a professor's ID.
+   * Handles HTTP GET requests to retrieve all study classes, optionally filtered by a professor's
+   * ID.
    *
-   * @param professorId (Optional) The ID of the professor to filter classes by.
-   * @return A list of classes and HTTP status 200 (OK).
+   * @param professorId Optional ID of the professor to filter classes by.
+   * @return A {@link ResponseEntity} containing a list of {@link StudyClassDto} objects and an OK
+   *     status.
    */
   @GetMapping
-  public ResponseEntity<List<StudyClass>> findStudyClasses(
+  public ResponseEntity<List<StudyClassDto>> findStudyClasses(
       @RequestParam(required = false) Long professorId) {
-    List<StudyClass> classes;
+    List<StudyClassDto> classes;
     if (professorId != null) {
       classes = studyClassService.getClassesByProfessor(professorId);
     } else {
@@ -37,36 +48,65 @@ public class StudyClassController {
   }
 
   /**
-   * GET /study-classes/{id} : Retrieves a specific class by its ID.
+   * Handles HTTP GET requests to retrieve a single study class by its ID.
    *
-   * @param id The ID of the class to retrieve.
-   * @return The found class and HTTP status 200 (OK).
+   * @param id The ID of the study class to retrieve.
+   * @return A {@link ResponseEntity} containing the found {@link StudyClassDto} and an OK status.
    */
   @GetMapping("/{id}")
-  public ResponseEntity<StudyClass> getStudyClassById(@PathVariable Long id) {
-    StudyClass studyClass = studyClassService.getStudyClassById(id);
+  public ResponseEntity<StudyClassDto> getStudyClassById(@PathVariable Long id) {
+    StudyClassDto studyClass = studyClassService.getStudyClassById(id);
     return ResponseEntity.ok(studyClass);
   }
 
   /**
-   * POST /study-classes : Creates a new class.
+   * Handles HTTP POST requests to create a new study class.
    *
-   * @param request The request body containing class details.
-   * @return The created class and HTTP status 201 (Created).
+   * @param request A {@link CreateStudyClassRequest} containing the details for the new study
+   *     class.
+   * @return A {@link ResponseEntity} containing the newly created {@link StudyClassDto} and a
+   *     CREATED status.
    */
   @PostMapping
-  public ResponseEntity<StudyClass> createStudyClass(@RequestBody CreateStudyClassRequest request) {
-    StudyClass createdClass =
+  public ResponseEntity<StudyClassDto> createStudyClass(
+      @RequestBody CreateStudyClassRequest request) {
+    StudyClassDto createdClass =
         studyClassService.createStudyClass(
             request.year(), request.semester(), request.courseId(), request.professorId());
     return new ResponseEntity<>(createdClass, HttpStatus.CREATED);
   }
 
   /**
-   * DELETE /study-classes/{id} : Deletes a class by its ID.
+   * Handles HTTP PUT requests to assign a professor to a study class.
    *
-   * @param id The ID of the class to delete.
-   * @return No content and HTTP status 204 (No Content).
+   * @param classId The ID of the study class.
+   * @param request A {@link AssignProfessorRequest} containing the ID of the professor to assign.
+   * @return A {@link ResponseEntity} containing the updated {@link StudyClassDto} and an OK status.
+   */
+  @PutMapping("/{classId}/professor")
+  public ResponseEntity<StudyClassDto> assignProfessor(
+      @PathVariable Long classId, @RequestBody AssignProfessorRequest request) {
+    StudyClassDto updatedClass = studyClassService.assignProfessor(classId, request.professorId());
+    return ResponseEntity.ok(updatedClass);
+  }
+
+  /**
+   * Handles HTTP DELETE requests to unassign a professor from a study class.
+   *
+   * @param classId The ID of the study class.
+   * @return A {@link ResponseEntity} containing the updated {@link StudyClassDto} and an OK status.
+   */
+  @DeleteMapping("/{classId}/professor")
+  public ResponseEntity<StudyClassDto> unassignProfessor(@PathVariable Long classId) {
+    StudyClassDto updatedClass = studyClassService.unassignProfessor(classId);
+    return ResponseEntity.ok(updatedClass);
+  }
+
+  /**
+   * Handles HTTP DELETE requests to delete a study class by its ID.
+   *
+   * @param id The ID of the study class to delete.
+   * @return A {@link ResponseEntity} with NO_CONTENT status indicating successful deletion.
    */
   @DeleteMapping("/{id}")
   public ResponseEntity<Void> deleteStudyClass(@PathVariable Long id) {

@@ -4,14 +4,13 @@ import batistaReviver.studentApi.exception.EntityNotFoundException;
 import batistaReviver.studentApi.model.Course;
 import batistaReviver.studentApi.repository.CourseRepository;
 import java.util.List;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 /**
  * Service class for handling business logic related to {@link Course} entities.
  *
- * <p>This class provides methods for creating, retrieving, updating, and deleting courses, acting
- * as an intermediary between the controller and the repository.
+ * <p>This class acts as an intermediary between the {@link CourseController} and the {@link
+ * CourseRepository}, encapsulating the business logic for course management.
  */
 @Service
 public class CourseService {
@@ -23,7 +22,6 @@ public class CourseService {
    *
    * @param courseRepository The repository used for course data access.
    */
-  @Autowired
   public CourseService(CourseRepository courseRepository) {
     this.courseRepository = courseRepository;
   }
@@ -73,8 +71,10 @@ public class CourseService {
     Course existingCourse = getCourseById(id);
 
     existingCourse.setName(courseDetails.getName());
-    existingCourse.setDescription(courseDetails.getDescription());
-    // The 'studyClasses' set is managed via its own endpoints or logic, not typically updated here.
+    existingCourse.setDescription(
+        courseDetails
+            .getDescription()); // The 'studyClasses' set is managed via its own endpoints or logic,
+    // not typically updated here.
 
     return courseRepository.save(existingCourse);
   }
@@ -83,7 +83,7 @@ public class CourseService {
    * Deletes a course by its unique identifier.
    *
    * @param id The ID of the course to delete.
-   * @throws EntityNotFoundException if no course with the given ID is found.
+   * @throws EntityNotFoundException if no course is found with the given ID.
    */
   public void deleteCourse(Long id) {
     Course courseToDelete = getCourseById(id);

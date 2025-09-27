@@ -1,5 +1,6 @@
 package batistaReviver.studentApi.service;
 
+import batistaReviver.studentApi.dto.SubscriptionDto;
 import batistaReviver.studentApi.exception.EntityAlreadyExistsException;
 import batistaReviver.studentApi.exception.EntityNotFoundException;
 import batistaReviver.studentApi.model.Student;
@@ -13,6 +14,12 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+/**
+ * Service class for managing subscription-related business logic.
+ *
+ * <p>This class handles the creation, retrieval, and deletion of {@link Subscription} entities,
+ * which link students to study classes.
+ */
 @Service
 @RequiredArgsConstructor
 public class SubscriptionService {
@@ -24,10 +31,11 @@ public class SubscriptionService {
   /**
    * Retrieves all subscriptions.
    *
-   * @return A list of all {@link Subscription} entities.
+   * @return A list of all {@link SubscriptionDto}s.
    */
-  public List<Subscription> getAllSubscriptions() {
-    return subscriptionRepository.findAll();
+  @Transactional(readOnly = true)
+  public List<SubscriptionDto> getAllSubscriptions() {
+    return subscriptionRepository.findAll().stream().map(SubscriptionDto::new).toList();
   }
 
   /**
@@ -35,12 +43,12 @@ public class SubscriptionService {
    *
    * @param studentId The ID of the student subscribing.
    * @param studyClassId The ID of the class to subscribe to.
-   * @return The newly created Subscription entity.
+   * @return The newly created {@link SubscriptionDto}.
    * @throws EntityNotFoundException if the student or class with the given IDs are not found.
    * @throws EntityAlreadyExistsException if the student is already subscribed to the class.
    */
   @Transactional
-  public Subscription createSubscription(Long studentId, Long studyClassId) {
+  public SubscriptionDto createSubscription(Long studentId, Long studyClassId) {
     // Prevent duplicate subscriptions
     if (subscriptionRepository.existsByStudentIdAndStudyClassId(studentId, studyClassId)) {
       throw new EntityAlreadyExistsException("Student is already subscribed to this class.");
@@ -62,12 +70,13 @@ public class SubscriptionService {
                         "StudyClass with id = " + studyClassId + " not found."));
 
     Subscription newSubscription = new Subscription(student, studyClass);
-    return subscriptionRepository.save(newSubscription);
+    Subscription savedSubscription = subscriptionRepository.save(newSubscription);
+    return new SubscriptionDto(savedSubscription);
   }
 
   /**
-   * Deletes a subscription by its ID. This action does not affect the related Student or StudyClass
-   * entities.
+   * Deletes a subscription by its ID. This action does not affect the related {@link Student} or
+   * {@link StudyClass} entities.
    *
    * @param id The ID of the subscription to delete.
    * @throws EntityNotFoundException if no subscription with the given ID is found.
@@ -84,31 +93,33 @@ public class SubscriptionService {
    * Retrieves the subscription history for a specific student.
    *
    * @param studentId The ID of the student.
-   * @return A list of {@link Subscription} entities for the student.
+   * @return A list of {@link SubscriptionDto}s for the student.
    * @throws EntityNotFoundException if no student is found with the given ID.
    */
-  public List<Subscription> getStudentHistory(Long studentId) {
-    // 1. Check if the student exists to fulfill the Javadoc contract.
+  @Transactional(readOnly = true)
+  public List<SubscriptionDto> getStudentHistory(Long studentId) {
     if (!studentRepository.existsById(studentId)) {
       throw new EntityNotFoundException("Student with id = " + studentId + " not found.");
     }
-    // 2. Use the efficient repository method instead of iterating over all subscriptions.
-    return subscriptionRepository.findByStudentId(studentId);
+    return subscriptionRepository.findByStudentId(studentId).stream()
+        .map(SubscriptionDto::new)
+        .toList();
   }
 
   /**
    * Retrieves all subscriptions for a specific class.
    *
    * @param studyClassId The ID of the class.
-   * @return A list of {@link Subscription} entities for the class.
+   * @return A list of {@link SubscriptionDto}s for the class.
    * @throws EntityNotFoundException if no class is found with the given ID.
    */
-  public List<Subscription> getSubscriptionsByClass(Long studyClassId) {
-    // Check if the class exists before querying for its subscriptions.
+  @Transactional(readOnly = true)
+  public List<SubscriptionDto> getSubscriptionsByClass(Long studyClassId) {
     if (!studyClassRepository.existsById(studyClassId)) {
       throw new EntityNotFoundException("StudyClass with id = " + studyClassId + " not found.");
     }
-    // Use the custom repository method to efficiently find all subscriptions.
-    return subscriptionRepository.findByStudyClassId(studyClassId);
+    return subscriptionRepository.findByStudyClassId(studyClassId).stream()
+        .map(SubscriptionDto::new)
+        .toList();
   }
 }

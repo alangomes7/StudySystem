@@ -9,8 +9,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 /**
- * REST controller for managing students. Provides endpoints for CRUD operations on Student
- * entities.
+ * REST controller for managing {@link Student} entities. Provides endpoints for CRUD operations on
+ * students.
  */
 @RestController
 @RequestMapping("/students")
@@ -22,7 +22,7 @@ public class StudentController {
   /**
    * Retrieves a list of all students.
    *
-   * @return a list of all students.
+   * @return A list of all {@link Student} entities.
    */
   @GetMapping
   public List<Student> getAllStudents() {
@@ -33,7 +33,9 @@ public class StudentController {
    * Retrieves a specific student by their ID.
    *
    * @param id The ID of the student to retrieve.
-   * @return a ResponseEntity containing the student if found, or 404 if not found.
+   * @return A {@link ResponseEntity} containing the student if found.
+   * @throws batistaReviver.studentApi.exception.EntityNotFoundException if the student is not
+   *     found.
    */
   @GetMapping("/{id}")
   public ResponseEntity<Student> getStudentById(@PathVariable Long id) {
@@ -44,7 +46,7 @@ public class StudentController {
    * Adds a new student.
    *
    * @param student The student object to be added.
-   * @return a ResponseEntity containing the created student and HTTP status 201 (Created).
+   * @return A {@link ResponseEntity} containing the created student and HTTP status 201 (Created).
    */
   @PostMapping
   public ResponseEntity<Student> addStudent(@RequestBody Student student) {
@@ -56,7 +58,9 @@ public class StudentController {
    *
    * @param id The ID of the student to modify.
    * @param studentDetails The new details for the student.
-   * @return a ResponseEntity containing the updated student.
+   * @return A {@link ResponseEntity} containing the updated student.
+   * @throws batistaReviver.studentApi.exception.EntityNotFoundException if the student is not
+   *     found.
    */
   @PutMapping("/{id}")
   public ResponseEntity<Student> modifyStudent(
@@ -68,7 +72,11 @@ public class StudentController {
    * Removes a student by their ID.
    *
    * @param id The ID of the student to remove.
-   * @return a ResponseEntity with HTTP status 204 (No Content).
+   * @return A {@link ResponseEntity} with HTTP status 204 (No Content).
+   * @throws batistaReviver.studentApi.exception.EntityNotFoundException if the student is not
+   *     found.
+   * @throws batistaReviver.studentApi.exception.StudentEnrolledException if the student is enrolled
+   *     in any class.
    */
   @DeleteMapping("/{id}")
   public ResponseEntity<Void> removeStudent(@PathVariable Long id) {

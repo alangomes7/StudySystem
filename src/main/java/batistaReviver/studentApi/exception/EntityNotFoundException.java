@@ -16,8 +16,7 @@ public class EntityNotFoundException extends RuntimeException {
   /**
    * Constructs a new {@code EntityNotFoundException} with the specified detail message.
    *
-   * @param message The detail message, which is saved for later retrieval by the {@link
-   *     #getMessage()} method.
+   * @param message The detail message.
    */
   public EntityNotFoundException(String message) {
     super(message);

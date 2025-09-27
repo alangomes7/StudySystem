@@ -1,8 +1,10 @@
 package batistaReviver.studentApi.service;
 
 import batistaReviver.studentApi.exception.EntityNotFoundException;
+import batistaReviver.studentApi.exception.StudentEnrolledException;
 import batistaReviver.studentApi.model.Student;
 import batistaReviver.studentApi.repository.StudentRepository;
+import batistaReviver.studentApi.repository.SubscriptionRepository;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -17,6 +19,7 @@ import org.springframework.transaction.annotation.Transactional;
 public class StudentService {
 
   private final StudentRepository studentRepository;
+  private final SubscriptionRepository subscriptionRepository;
 
   /**
    * Retrieves all students.
@@ -69,14 +72,19 @@ public class StudentService {
   }
 
   /**
-   * Removes a student from the database by their ID. It first checks if the student exists before
-   * attempting to delete.
+   * Removes a student from the database by their ID.
    *
    * @param id The ID of the student to remove.
    * @throws EntityNotFoundException if no student is found with the given ID.
+   * @throws StudentEnrolledException if the student is currently enrolled in any class.
    */
   public void removeStudent(Long id) {
-    getStudentById(id); // Lança exceção se não for encontrado
+    if (!studentRepository.existsById(id)) {
+      throw new EntityNotFoundException("Estudante com id = " + id + " não encontrado.");
+    }
+    if (subscriptionRepository.existsByStudentId(id)) {
+      throw new StudentEnrolledException("Student is enrolled in a class and cannot be removed.");
+    }
     studentRepository.deleteById(id);
   }
 }
