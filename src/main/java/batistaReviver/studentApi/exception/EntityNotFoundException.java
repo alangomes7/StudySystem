@@ -1,13 +1,18 @@
 package batistaReviver.studentApi.exception;
 
 import java.io.Serial;
+import org.springframework.http.HttpStatus;
+import org.springframework.web.bind.annotation.ResponseStatus;
 
 /**
- * Custom exception thrown when a requested entity cannot be found in the persistence layer.
+ * Exception thrown when a specific entity is not found in the database.
  *
- * <p>This is an unchecked exception because it often indicates a client error, such as requesting
- * an entity with an ID that does not exist.
+ * <p>This is an unchecked exception because it typically signifies a client error, such as
+ * providing an invalid ID for an entity that does not exist. The {@link ResponseStatus} annotation
+ * ensures that this exception results in an HTTP 404 Not Found response, which is a standard way to
+ * handle such cases in REST APIs.
  */
+@ResponseStatus(HttpStatus.NOT_FOUND)
 public class EntityNotFoundException extends RuntimeException {
 
   /** A unique identifier for this serializable class. */

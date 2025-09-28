@@ -8,8 +8,9 @@ import org.springframework.stereotype.Repository;
 /**
  * Spring Data JPA repository for the {@link StudyClass} entity.
  *
- * <p>This interface provides the mechanism for storage, retrieval, and search behavior for
- * StudyClass entities.
+ * <p>This interface provides methods for CRUD operations and custom queries for managing {@link
+ * StudyClass} entities. It includes methods to find classes by professor, check for existing
+ * classes to prevent duplicates, and verify associations with courses and professors.
  */
 @Repository
 public interface StudyClassRepository extends JpaRepository<StudyClass, Long> {
@@ -22,7 +23,14 @@ public interface StudyClassRepository extends JpaRepository<StudyClass, Long> {
    */
   List<StudyClass> findByProfessorId(Long professorId);
 
-  boolean existsByProfessorId(Long id);
+  /**
+   * Checks if any study class is associated with a specific professor.
+   *
+   * @param professorId The ID of the professor.
+   * @return {@code true} if the professor is assigned to at least one study class, {@code false}
+   *     otherwise.
+   */
+  boolean existsByProfessorId(Long professorId);
 
   /**
    * Checks if a class for the same course, year, and semester already exists.
@@ -33,4 +41,12 @@ public interface StudyClassRepository extends JpaRepository<StudyClass, Long> {
    * @return {@code true} if a class already exists, {@code false} otherwise.
    */
   boolean existsByCourseIdAndYearAndSemester(Long courseId, int year, int semester);
+
+  /**
+   * Checks if any study class is associated with a specific course.
+   *
+   * @param courseId The ID of the course.
+   * @return {@code true} if the course has at least one study class, {@code false} otherwise.
+   */
+  boolean existsByCourseId(Long courseId);
 }

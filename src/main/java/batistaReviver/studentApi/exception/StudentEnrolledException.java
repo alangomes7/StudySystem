@@ -1,5 +1,6 @@
 package batistaReviver.studentApi.exception;
 
+import java.io.Serial;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.ResponseStatus;
 
@@ -10,6 +11,9 @@ import org.springframework.web.bind.annotation.ResponseStatus;
  */
 @ResponseStatus(HttpStatus.CONFLICT)
 public class StudentEnrolledException extends RuntimeException {
+
+  /** A unique identifier for this serializable class. */
+  @Serial private static final long serialVersionUID = 1L;
 
   /**
    * Constructs a new StudentEnrolledException with the specified detail message.

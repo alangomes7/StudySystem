@@ -3,6 +3,7 @@ package batistaReviver.studentApi.service;
 import batistaReviver.studentApi.dto.StudyClassDto;
 import batistaReviver.studentApi.exception.EntityNotFoundException;
 import batistaReviver.studentApi.exception.EntityValidationException;
+import batistaReviver.studentApi.exception.ProfessorEnrolledException;
 import batistaReviver.studentApi.exception.SubscriptionFoundException;
 import batistaReviver.studentApi.model.Course;
 import batistaReviver.studentApi.model.Professor;
@@ -140,7 +141,7 @@ public class StudyClassService {
    * @param professorId The ID of the professor to assign.
    * @return An updated {@link StudyClassDto} with the new professor.
    * @throws EntityNotFoundException if the class or professor is not found.
-   * @throws EntityValidationException if the class already has a professor assigned.
+   * @throws ProfessorEnrolledException if the class already has a professor assigned.
    */
   @Transactional
   public StudyClassDto assignProfessor(Long classId, Long professorId) {
@@ -152,7 +153,7 @@ public class StudyClassService {
                     new EntityNotFoundException("StudyClass with id = " + classId + " not found."));
 
     if (studyClass.getProfessor() != null) {
-      throw new EntityValidationException(
+      throw new ProfessorEnrolledException(
           "StudyClass with id = " + classId + " already has a professor assigned.");
     }
 
@@ -213,8 +214,10 @@ public class StudyClassService {
       throw new SubscriptionFoundException("Study class has subscriptions and cannot be removed.");
     }
 
-    // The professor is simply un-assigned from the class before deletion.
-    studyClass.setProfessor(null);
+    if (studyClass.getProfessor() != null) {
+      throw new ProfessorEnrolledException("Study class has professor and cannot be removed.");
+    }
+
     studyClassRepository.save(studyClass); // Ensure the relationship is severed before deleting.
     studyClassRepository.deleteById(id);
   }

@@ -1,8 +1,8 @@
 package batistaReviver.studentApi.service;
 
 import batistaReviver.studentApi.dto.SubscriptionDto;
-import batistaReviver.studentApi.exception.EntityAlreadyExistsException;
 import batistaReviver.studentApi.exception.EntityNotFoundException;
+import batistaReviver.studentApi.exception.StudentEnrolledException;
 import batistaReviver.studentApi.model.Student;
 import batistaReviver.studentApi.model.StudyClass;
 import batistaReviver.studentApi.model.Subscription;
@@ -45,13 +45,13 @@ public class SubscriptionService {
    * @param studyClassId The ID of the class to subscribe to.
    * @return The newly created {@link SubscriptionDto}.
    * @throws EntityNotFoundException if the student or class with the given IDs are not found.
-   * @throws EntityAlreadyExistsException if the student is already subscribed to the class.
+   * @throws StudentEnrolledException if the student is already subscribed to the class.
    */
   @Transactional
   public SubscriptionDto createSubscription(Long studentId, Long studyClassId) {
     // Prevent duplicate subscriptions
     if (subscriptionRepository.existsByStudentIdAndStudyClassId(studentId, studyClassId)) {
-      throw new EntityAlreadyExistsException("Student is already subscribed to this class.");
+      throw new StudentEnrolledException("Student is already subscribed to this class.");
     }
 
     Student student =

@@ -1,6 +1,7 @@
 package batistaReviver.studentApi.controller;
 
 import batistaReviver.studentApi.dto.StudyClassDto;
+import batistaReviver.studentApi.model.StudyClass;
 import batistaReviver.studentApi.service.StudyClassService;
 import java.util.List; // Import List
 import lombok.RequiredArgsConstructor;

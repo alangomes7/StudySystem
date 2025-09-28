@@ -40,8 +40,7 @@ public class StudentService {
   public Student getStudentById(Long id) {
     return studentRepository
         .findById(id)
-        .orElseThrow(
-            () -> new EntityNotFoundException("Estudante com id = " + id + " não encontrado."));
+        .orElseThrow(() -> new EntityNotFoundException("Student with id = " + id + " not found."));
   }
 
   /**
@@ -80,7 +79,7 @@ public class StudentService {
    */
   public void removeStudent(Long id) {
     if (!studentRepository.existsById(id)) {
-      throw new EntityNotFoundException("Estudante com id = " + id + " não encontrado.");
+      throw new EntityNotFoundException("Student with id = " + id + " not found.");
     }
     if (subscriptionRepository.existsByStudentId(id)) {
       throw new StudentEnrolledException("Student is enrolled in a class and cannot be removed.");

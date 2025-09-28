@@ -1,9 +1,13 @@
 package batistaReviver.studentApi.service;
 
+import batistaReviver.studentApi.controller.CourseController;
 import batistaReviver.studentApi.exception.EntityNotFoundException;
+import batistaReviver.studentApi.exception.StudyClassExistsException;
 import batistaReviver.studentApi.model.Course;
 import batistaReviver.studentApi.repository.CourseRepository;
+import batistaReviver.studentApi.repository.StudyClassRepository;
 import java.util.List;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 /**
@@ -13,18 +17,11 @@ import org.springframework.stereotype.Service;
  * CourseRepository}, encapsulating the business logic for course management.
  */
 @Service
+@RequiredArgsConstructor
 public class CourseService {
 
   private final CourseRepository courseRepository;
-
-  /**
-   * Constructs a new CourseService with the specified repository.
-   *
-   * @param courseRepository The repository used for course data access.
-   */
-  public CourseService(CourseRepository courseRepository) {
-    this.courseRepository = courseRepository;
-  }
+  private final StudyClassRepository studyClassRepository;
 
   /**
    * Retrieves all courses from the database.
@@ -86,7 +83,14 @@ public class CourseService {
    * @throws EntityNotFoundException if no course is found with the given ID.
    */
   public void deleteCourse(Long id) {
-    Course courseToDelete = getCourseById(id);
+    Course courseToDelete =
+        courseRepository
+            .findById(id)
+            .orElseThrow(
+                () -> new EntityNotFoundException("Course with id = " + id + " not found."));
+    if (studyClassRepository.existsByCourseId(id)) {
+      throw new StudyClassExistsException("Course has study classes and cannot be removed.");
+    }
     courseRepository.delete(courseToDelete);
   }
 }
