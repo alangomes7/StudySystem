@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.*;
  * the enrollment of a {@link batistaReviver.studentApi.model.Student} in a {@link
  * batistaReviver.studentApi.model.StudyClass}.
  */
+@CrossOrigin(origins = "http://localhost:3000")
 @RestController
 @RequestMapping("/subscriptions")
 @RequiredArgsConstructor

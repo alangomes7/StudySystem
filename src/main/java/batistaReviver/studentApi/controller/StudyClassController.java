@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.*;
  * <p>Provides API endpoints for creating, retrieving, deleting, and managing professor assignments
  * for study classes. All endpoints are mapped under the "/study-classes" base path.
  */
+@CrossOrigin(origins = "http://localhost:3000")
 @RestController
 @RequestMapping("/study-classes")
 @RequiredArgsConstructor
